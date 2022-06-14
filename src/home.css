@@ -32,7 +32,7 @@ body main .main_zone {
   position: relative;
 }
 
-body main .main_zone h1 {
+body main .main_zone .main_text {
   position: absolute;
   top: 40%;
   left: 50%;
@@ -41,6 +41,24 @@ body main .main_zone h1 {
   margin-right: -50%;
   padding: 2rem;
   font-size: clamp(20px, 3vw, 40px);
+}
+
+body main .main_zone .main_text h1 {
+  display: none;
+}
+
+body main .main_zone .main_text span {
+  font-weight: bold;
+  letter-spacing: 0.2rem;
+  color: darkgray;
+}
+
+body main .main_zone .main_text .success {
+  color: red;
+}
+
+body main .main_zone .main_text .nextNumber {
+  color: #5858ff;
 }
 
 body main .main_zone .buttons {

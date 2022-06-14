@@ -28,7 +28,7 @@ body {
             border-radius: 10px;
             position: relative;
 
-            h1 {
+            .main_text {
                 position: absolute;
                 top: 40%;
                 left: 50%;
@@ -36,6 +36,24 @@ body {
                 margin-right: -50%;
                 padding: 2rem;
                 font-size: clamp(20px, 3vw, 40px);
+
+                h1 {
+                    display: none;
+                }
+
+                span {
+                    font-weight: bold;
+                    letter-spacing: 0.2rem;
+                    color: rgb(169, 169, 169);
+                }
+
+                .success {
+                    color: red;
+                }
+            
+                .nextNumber {
+                    color: rgb(88, 88, 255);
+                }
             }
 
             .buttons {
