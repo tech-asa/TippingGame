@@ -14,16 +14,16 @@ import { UrgeWithPleasureComponent } from './components/sample';
 function App() {
 
   // タイマーの設定
-  const { 
-    path, 
-    pathLength, 
-    stroke, 
+  const {
+    path,
+    pathLength,
+    stroke,
     strokeDashoffset,
     remainingTime,
-    elapsedTime, 
+    elapsedTime,
     size,
     strokeWidth
-  }  =  useCountdown({isPlaying:true, duration:7, colors:'#abc'})
+  } = useCountdown({ isPlaying: true, duration: 7, colors: '#abc' })
 
 
   // タイムバーの実装
@@ -37,6 +37,10 @@ function App() {
       setTimeout(timeBar, 200);
     } else {
       alert(`${successNumber}文字完了！`);
+      let mainText = document.querySelector('.main_zone .main_text') as HTMLInputElement;
+      while (mainText.firstChild) {
+        mainText.removeChild(mainText.firstChild);
+      }
       timeValue = 0;
       let timer = document.querySelector('.tv') as HTMLInputElement;
       timer.style.width = 0 + '%';
@@ -85,27 +89,31 @@ function App() {
 
     document.addEventListener('keydown', keypressEvent);
 
+    document.onkeydown = function(e) {
+      // Enterキーもしくはスペースキーだったら無効にする
+      if (e.key === 'Enter' || e.key === ' ') {
+        return false;
+      }
+    }
+    
     let i: number = 0;
     async function keypressEvent(e) {
-      if (e.key === tippingWord[i] && i !== spanTextContents.length) {
-        successNumber += 1;
-        console.log(successNumber); // (6) ['t', 'i', 'p', 'i', 'n', 'g'] 要素から改めて獲得
-        spanText[i].className = 'success';
-        // 点数加算
-        i++;
-        // 次の文字を青くする処理
-        if (i !== tippingWord.length) {
-          spanText[i].className = 'nextNumber';
+        if (e.key === tippingWord[i] && i !== spanTextContents.length) {
+          successNumber += 1;
+          console.log(successNumber); // (6) ['t', 'i', 'p', 'i', 'n', 'g'] 要素から改めて獲得
+          spanText[i].className = 'success';
+          // 点数加算
+          i++;
+          // 次の文字を青くする処理
+          if (i !== tippingWord.length) {
+            spanText[i].className = 'nextNumber';
+          }
         }
-      }
-      // else if (e.key !== spanTextContents[i]) {
-      //   alert('不正解');
-      // }
-      if (i === spanTextContents.length) {
-        i = 0;
-        await testButton();
+        if (i === spanTextContents.length) {
+          i = 0;
+          await testButton();
+        };
       };
-    };
   };
 
   ///////////////////////////////////////////
@@ -161,12 +169,11 @@ function App() {
 
           <div className="main_zone">
             <div className='main_text'>
-              <h1>tiping</h1>
+              <span>開始ボタンを押してください</span>
             </div>
             <div className="buttons">
-              <button>仮ボタン</button>
-              <button>仮ボタン</button>
-              <button>仮ボタン</button>
+              <button>停止</button>
+              <button>最初から</button>
             </div>
           </div>
         </main>
@@ -181,7 +188,7 @@ function App() {
           }}>開始</button>
           <button onClick={testButton}>開始</button>
         </footer>
-        <UrgeWithPleasureComponent/>
+        <UrgeWithPleasureComponent />
       </body>
     </>
   );
