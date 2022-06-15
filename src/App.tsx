@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import './home.css';
 import Button from './components/Atoms/button';
@@ -7,8 +7,24 @@ import { buttonEffect } from './components/page';
 import { SampleA } from './components/SampleA.jsx'
 import { SampleB } from './components/SampleB.jsx'
 import { SampleC } from './components/SampleC.jsx'
+import { englishes } from './components/english';
+import { useCountdown } from 'react-countdown-circle-timer';
+import { UrgeWithPleasureComponent } from './components/sample';
 
 function App() {
+
+  // タイマーの設定
+  const { 
+    path, 
+    pathLength, 
+    stroke, 
+    strokeDashoffset,
+    remainingTime,
+    elapsedTime, 
+    size,
+    strokeWidth
+  }  =  useCountdown({isPlaying:true, duration:7, colors:'#abc'})
+
 
   // タイムバーの実装
   let timeValue = 0;
@@ -18,30 +34,24 @@ function App() {
       let timer = document.querySelector('.tv') as HTMLInputElement;
       timer.style.width = ++timeValue + '%';
       // 20で1秒(1200で1分)
-      setTimeout(timeBar, 3600);
+      setTimeout(timeBar, 200);
     } else {
-      alert('終了！');
+      alert(`${successNumber}文字完了！`);
       timeValue = 0;
       let timer = document.querySelector('.tv') as HTMLInputElement;
       timer.style.width = 0 + '%';
     };
-    //
   };
 
   //タイピングテキストの挿入処理
-  function testButton() {
+  let successNumber: number = 0;
+  async function testButton() {
     // DOMキーワード習得
-    const textLists = [
-      'apple',
-      'Good',
-      'JavaScript',
-      'MyApp',
-      'Welcome'
-    ];
+    const textLists = englishes;
 
     const rnd = Math.floor(Math.random() * textLists.length);
     // 小文字変換
-    let textList = textLists[rnd].toLowerCase();
+    let textList = textLists[rnd].name.toLowerCase();
 
     let tippingWords: string = textList;
 
@@ -51,10 +61,10 @@ function App() {
     let mainText = document.querySelector('.main_zone .main_text') as HTMLInputElement;
 
     // もし既に単語が存在するのであれば削除
-    if(document.querySelector('.main_zone .main_text span')){
-      while(mainText.firstChild){
+    if (document.querySelector('.main_zone .main_text span')) {
+      while (mainText.firstChild) {
         mainText.removeChild(mainText.firstChild);
-       }
+      }
     };
     // 順番に要素を入れていく
     tippingWord.forEach(function (value) {
@@ -73,26 +83,18 @@ function App() {
       return (spanTextContents);
     });
 
-    console.log(tippingWords); // tipping
-    console.log(tippingWord); // (6) ['t', 'i', 'p', 'i', 'n', 'g'] 文書から獲得
-    console.log(mainText); //<div class="main_text"><h1>tipping</h1><span>t</span><span>i</span><span>p</span><span>i</span><span>n</span><span>g</span></div>
-    console.log(spanText); // NodeList(5) [span, span, span, span, span]
-    console.log(spanTextContents); // (6) ['t', 'i', 'p', 'i', 'n', 'g'] 要素から改めて獲得
-    
-    
-    document.addEventListener('keypress', keypressEvent);
-    
+    document.addEventListener('keydown', keypressEvent);
+
     let i: number = 0;
-    let successNumber: number = 0;
-    console.log(successNumber); // (6) ['t', 'i', 'p', 'i', 'n', 'g'] 要素から改めて獲得
-    function keypressEvent(e) {
-      if (e.key === spanTextContents[i] && i < spanTextContents.length) {
+    async function keypressEvent(e) {
+      if (e.key === tippingWord[i] && i !== spanTextContents.length) {
+        successNumber += 1;
+        console.log(successNumber); // (6) ['t', 'i', 'p', 'i', 'n', 'g'] 要素から改めて獲得
         spanText[i].className = 'success';
         // 点数加算
-        successNumber++;
         i++;
         // 次の文字を青くする処理
-        if (i !== spanTextContents.length) {
+        if (i !== tippingWord.length) {
           spanText[i].className = 'nextNumber';
         }
       }
@@ -100,8 +102,8 @@ function App() {
       //   alert('不正解');
       // }
       if (i === spanTextContents.length) {
-        testButton();
         i = 0;
+        await testButton();
       };
     };
   };
@@ -173,9 +175,13 @@ function App() {
           <div className="timer">
             <div className="tv"></div>
           </div>
-          <button onClick={timeBar}>開始</button>
+          <button onClick={() => {
+            timeBar();
+            testButton();
+          }}>開始</button>
           <button onClick={testButton}>開始</button>
         </footer>
+        <UrgeWithPleasureComponent/>
       </body>
     </>
   );
