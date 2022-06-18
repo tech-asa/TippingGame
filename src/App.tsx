@@ -8,7 +8,7 @@ import { SampleA } from './components/SampleA.jsx'
 import { SampleB } from './components/SampleB.jsx'
 import { SampleC } from './components/SampleC.jsx'
 import { useCountdown } from 'react-countdown-circle-timer';
-import { UrgeWithPleasureComponent } from './components/sample';
+import { UrgeWithPleasureComponent } from './components/TimeRing';
 
 function App() {
   // タイマーの設定
@@ -51,7 +51,7 @@ function App() {
             <div className='main_text'>
               <span>開始ボタンを押してください</span>
             </div>
-            < ControllerButtons />
+            <ControllerButtons />
           </div>
         </main>
 
@@ -59,12 +59,11 @@ function App() {
           <div className="timer">
             <div className="tv"></div>
           </div>
+          <UrgeWithPleasureComponent />
         </footer>
-        <UrgeWithPleasureComponent />
       </body>
     </>
   );
 };
-
 
 export default App;
