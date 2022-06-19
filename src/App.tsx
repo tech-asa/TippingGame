@@ -24,9 +24,7 @@ function App() {
           <h1>[試作]寿司打</h1>
         </header>
 
-        <main>
-          <PageRouting/>
-        </main>
+        <PageRouting />
 
         <footer>
           <div className="timer">

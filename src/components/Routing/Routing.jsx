@@ -12,13 +12,13 @@ export const PageRouting = () => {
             <Router>
                 {/* ページリンク */}
                 <div>
-                    <Link to="/sampleA">sampleA</Link>
+                    <Link to="/tiping">sampleA</Link>
                     <Link to="/sampleB">sampleB</Link>
                     <Link to="/sampleC">sampleC</Link>
                 </div>
                 <Switch>
                     {/* <Route>で個々のルーティングを定義する */}
-                    <Route path="/sampleA" component={Playing} />
+                    <Route path="/tiping" component={Playing} />
                     <Route path="/sampleB" component={SampleB} />
                     <Route path="/sampleC" component={SampleC} />
                 </Switch>
